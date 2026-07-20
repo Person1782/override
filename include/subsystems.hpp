@@ -10,3 +10,5 @@ extern Drive chassis;
 inline pros::MotorGroup intake({5, -6});
 inline pros::MotorGroup lift({7, -8});
 inline ez::Piston claw('A');
+inline ez::Piston flip('B');
+inline ez::Piston wrist('C');
