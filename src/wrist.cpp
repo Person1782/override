@@ -8,3 +8,7 @@ void wrist_logic() {
         wrist.set(true); // Set wrist to up position
     }
 }
+
+void wrist_opcontrol() {
+  flip.button_toggle(master.get_digital(DIGITAL_DOWN));
+}
