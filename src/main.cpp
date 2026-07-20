@@ -1,5 +1,7 @@
 #include "main.h"
 
+bool wrist_macro_active = false;
+
 /////
 // For installation, upgrading, documentations, and tutorials, check out our website!
 // https://ez-robotics.github.io/EZ-Template/
@@ -78,7 +80,6 @@ void initialize() {
   chassis.initialize();
   ez::as::initialize();
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
-  boolean wrist_macro_active = false;
 }
 
 /**
@@ -259,7 +260,7 @@ void opcontrol() {
     claw_opcontrol();
     wrist_logic();
     wrist_opcontrol();
-    get_wrist_macro_active()
+    get_wrist_macro_active();
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }

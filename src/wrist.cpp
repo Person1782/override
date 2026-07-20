@@ -16,7 +16,9 @@ void wrist_opcontrol() {
 }
 
 void get_wrist_macro_active() {
-    if(master.get_digital(DIGITAL_UP) && master.get_digital(DIGITAL_DOWN)) {
-        wrist_macro_active = !wrist_macro_active; // Toggle the wrist macro active state
+    if(wrist_macro_active){
+        if(master.get_digital(DIGITAL_UP) && master.get_digital(DIGITAL_DOWN)) {
+            wrist_macro_active = !wrist_macro_active; // Toggle the wrist macro active state
+        }
     }
 }
