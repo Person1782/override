@@ -4,7 +4,7 @@ void lift_opcontrol() {
   if (master.get_digital(DIGITAL_R1)) {
     lift.move(127);
   } 
-  else if (master.get_digital(DIGITAL_L1)) {
+  else if (master.get_digital(DIGITAL_R2)) {
     lift.move(-127);
   } 
   else {
