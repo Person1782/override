@@ -10,5 +10,5 @@ void wrist_logic() {
 }
 
 void wrist_opcontrol() {
-  flip.button_toggle(master.get_digital(DIGITAL_DOWN));
+    wrist.set(true);
 }
