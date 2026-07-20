@@ -12,3 +12,6 @@ inline pros::MotorGroup lift({7, -8});
 inline ez::Piston claw('A');
 inline ez::Piston flip('B');
 inline ez::Piston wrist('C');
+
+void intake_opcontrol();
+void lift_opcontrol();
