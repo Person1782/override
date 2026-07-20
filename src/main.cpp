@@ -78,6 +78,7 @@ void initialize() {
   chassis.initialize();
   ez::as::initialize();
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
+  boolean wrist_macro_active = false;
 }
 
 /**
