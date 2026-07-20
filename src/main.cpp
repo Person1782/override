@@ -256,6 +256,7 @@ void opcontrol() {
     lift_opcontrol();
     flip_opcontrol();
     claw_opcontrol();
+    wrist_logic();
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }

@@ -17,3 +17,4 @@ void intake_opcontrol();
 void lift_opcontrol();
 void flip_opcontrol();
 void claw_opcontrol();
+void wrist_logic();
