@@ -13,6 +13,8 @@ inline ez::Piston claw('A');
 inline ez::Piston flip('B');
 inline ez::Piston wrist('C');
 
+
+//function declarations to make PROS happy
 void intake_opcontrol();
 void lift_opcontrol();
 void flip_opcontrol();
