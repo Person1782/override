@@ -254,6 +254,8 @@ void opcontrol() {
     // . . .
     intake_opcontrol();
     lift_opcontrol();
+    flip_opcontrol();
+    claw_opcontrol();
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
