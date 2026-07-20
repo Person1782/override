@@ -10,5 +10,5 @@ void wrist_logic() {
 }
 
 void wrist_opcontrol() {
-    wrist.set(true); // Set wrist to extended position
+    flip.button_toggle(master.get_digital(DIGITAL_UP));
 }
