@@ -46,6 +46,8 @@
 // More includes here...
 #include "autons.hpp"
 #include "subsystems.hpp"
+#include "intake.cpp"
+#include "lift.cpp"
 
 
 /**
