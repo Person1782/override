@@ -21,3 +21,4 @@ void flip_opcontrol();
 void claw_opcontrol();
 void wrist_logic();
 void wrist_opcontrol();
+void get_wrist_macro_active();

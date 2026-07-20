@@ -259,6 +259,7 @@ void opcontrol() {
     claw_opcontrol();
     wrist_logic();
     wrist_opcontrol();
+    get_wrist_macro_active()
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
