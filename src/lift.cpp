@@ -9,5 +9,6 @@ void lift_opcontrol() {
   } 
   else {
     lift.move(0);
+    lift.set_brake_mode(MOTOR_BRAKE_HOLD);
   }
 }
