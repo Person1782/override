@@ -1,14 +1,14 @@
 #include "main.h"
 
 void lift_opcontrol() {
-  if (master.get_digital(DIGITAL_R1)) {
-    lift.move(70);
+  if (master.get_digital(DIGITAL_L1)) {
+    lift.move(120);
   } 
-  else if (master.get_digital(DIGITAL_R2)) {
-    lift.move(-70);
+  else if (master.get_digital(DIGITAL_L2)) {
+    lift.move(-120);
   } 
   else {
-    lift.move(0);
-    lift.set_brake_mode(MOTOR_BRAKE_HOLD);
+    lift.move(-2.5);
   }
 }
+
