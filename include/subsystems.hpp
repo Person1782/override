@@ -9,19 +9,11 @@ extern Drive chassis;
 
 inline pros::MotorGroup intake({5, -6});
 inline pros::MotorGroup lift({7, -8});
-inline ez::Piston claw('A');
-inline ez::Piston flip('B');
-inline ez::Piston wrist('C');
-
+inline ez::Piston wrist('A');
+inline pros::Motor claw(-1);
 
 //function declarations to make PROS happy
 void intake_opcontrol();
 void lift_opcontrol();
-void flip_opcontrol();
 void claw_opcontrol();
-void wrist_logic();
 void wrist_opcontrol();
-void get_wrist_macro_active();
-
-//global variables
-extern bool wrist_macro_active;

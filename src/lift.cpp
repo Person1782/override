@@ -2,13 +2,13 @@
 
 void lift_opcontrol() {
   if (master.get_digital(DIGITAL_L1)) {
-    lift.move(120);
+    lift.move(127);
   } 
   else if (master.get_digital(DIGITAL_L2)) {
-    lift.move(-120);
+    lift.move(-127);
   } 
   else {
-    lift.move(-2.5);
+    lift.move(0);
   }
 }
 
