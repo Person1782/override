@@ -11,7 +11,7 @@ ez::Drive chassis(
     {-3, -4},     // Left Chassis Ports (negative port will reverse it!)
     {18, 2},  // Right Chassis Ports (negative port will reverse it!)
 
-    9,      // IMU Port
+    20,      // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
     450);   // Wheel RPM = cartridge * (motor gear / wheel gear)
 
@@ -20,8 +20,8 @@ ez::Drive chassis(
 //  - you should get positive values on the encoders going FORWARD and RIGHT
 // - `2.75` is the wheel diameter
 // - `4.0` is the distance from the center of the wheel to the center of the robot
-ez::tracking_wheel horiz_tracker(10, 2, 4.0);  // This tracking wheel is perpendicular to the drive wheels
-ez::tracking_wheel vert_tracker(11, 2, 4.0);   // This tracking wheel is parallel to the drive wheels
+ez::tracking_wheel horiz_tracker(16, 2, 0.2);  // This tracking wheel is perpendicular to the drive wheels
+//ez::tracking_wheel vert_tracker(11, 2, 4.0);   // This tracking wheel is parallel to the drive wheels
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -73,6 +73,15 @@ void initialize() {
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
+
+  // Calibrate the lift's rotation sensor at startup
+  lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  lift.move(-127);
+  pros::delay(900);
+  lift.move(0);
+  pros::delay(100);
+  rotation.reset_position();
+
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 }
 
@@ -202,15 +211,17 @@ void opcontrol() {
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
   while (true) {
-    chassis.opcontrol_arcade_standard(ez::SPLIT);
+    if (master.get_digital_new_press(DIGITAL_Y)) {
+     chassis.opcontrol_drive_reverse_set(!chassis.opcontrol_drive_reverse_get());
+    }
+   chassis.opcontrol_arcade_standard(ez::SPLIT);
 
-    // . . .
-    // Put more user control code here!
-    // . . .
     intake_opcontrol();
     lift_opcontrol();
     claw_opcontrol();
     wrist_opcontrol();
+    matchloadPiston_opcontrol();
+    master.print(0, 0, "Rotation: %d", rotation.get_position());
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
