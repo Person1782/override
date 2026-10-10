@@ -10,17 +10,11 @@ void lift_opcontrol() {
     int motor1Current = std::abs(lift.get_current_draw(1));
     if (!liftBottomed) {
       lift.move(-127);
-      if (motor0Current > 2450 && motor1Current > 2450 && rotation.get_velocity() <= 50) {
-        lift.move(0);
-        rotation.reset_position();
-        liftBottomed = true;
+      if (motor0Current > 2450 && motor1Current > 2450 && abs(rotation.get_velocity()) < 60) { 
+        //abs(lift[0].get_actual_velocity()) < 2 && abs(lift[1].get_actual_velocity()) < 2) try this if the above doesn't work
+        liftBottomed = true;   
+        lift.move_relative(170, 127);
       }
-    }
-    else if (rotation.get_position() < 4000) {
-      lift.move(127);
-    }
-    else {
-      lift.move(0);
     }
   }
   else if (master.get_digital(DIGITAL_L2)) {
@@ -36,7 +30,7 @@ void lift_opcontrol() {
     wrist.set(true);
     liftBottomed = false;
   }
-  else {
+  else if (!liftBottomed) {
     lift.move(0);
   }
 }

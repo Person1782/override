@@ -55,18 +55,12 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"3 Pin\n\n 3 pin self goal", three_pin},
+      {"3 Pin\n\n 3 pin", three_pin},
   });
 
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
-
-  // Calibrate the lift's rotation sensor at startup
-  lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-  lift.move(-127);
-  pros::delay(800);
-  lift.move(0);
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 }
 
@@ -90,6 +84,12 @@ void disabled() {
  */
 void competition_initialize() {
   // . . .
+    // Calibrate the lift's rotation sensor at startup
+  lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  lift.move(-127);
+  pros::delay(800);
+  lift.move(0);
+
 }
 
 /**
@@ -194,13 +194,13 @@ pros::Task ezScreenTask(ez_screen_task);
 void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
+  chassis.opcontrol_drive_reverse_set(true);
 
   while (true) {
     if (master.get_digital_new_press(DIGITAL_Y)) {
      chassis.opcontrol_drive_reverse_set(!chassis.opcontrol_drive_reverse_get());
     }
    chassis.opcontrol_arcade_standard(ez::SPLIT);
-
     intake_opcontrol();
     lift_opcontrol();
     claw_opcontrol();
@@ -208,8 +208,9 @@ void opcontrol() {
     matchloadPiston_opcontrol();
     if(master.get_digital_new_press(DIGITAL_R2) && master.get_digital_new_press(DIGITAL_L2)) {
       autonomous();
+      chassis.opcontrol_drive_reverse_set(true);
     }
-
+    master.print(0, 0, "Rot: %d", rotation.get_velocity());
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }
