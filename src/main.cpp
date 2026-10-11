@@ -8,20 +8,20 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {-3, -4},     // Left Chassis Ports (negative port will reverse it!)
-    {18, 2},  // Right Chassis Ports (negative port will reverse it!)
+    {-4, -5, -6},  // Left Chassis Ports (negative port will reverse it!)
+    {1, 2, 3}, // Right Chassis Ports (negative port will reverse it!)
 
-    20,      // IMU Port
+    12,      // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
     450);   // Wheel RPM = cartridge * (motor gear / wheel gear)
 
 // Uncomment the trackers you're using here!
-// - `8` and `9` are smart ports (making these negative will reverse the sensor)
+// - `11` and `10` are smart ports (making these negative will reverse the sensor)
 //  - you should get positive values on the encoders going FORWARD and RIGHT
 // - `2.75` is the wheel diameter
 // - `4.0` is the distance from the center of the wheel to the center of the robot
-ez::tracking_wheel horiz_tracker(16, 2, 0.2);  // This tracking wheel is perpendicular to the drive wheels
-//ez::tracking_wheel vert_tracker(11, 2, 4.0);   // This tracking wheel is parallel to the drive wheels
+ez::tracking_wheel horiz_tracker(11, 2, 0.2);  // This tracking wheel is perpendicular to the drive wheels
+ez::tracking_wheel vert_tracker(10, 2, 4.0);   // This tracking wheel is parallel to the drive wheels
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -33,6 +33,7 @@ void initialize() {
   // Print our branding over your terminal :D
   ez::ez_template_print();
   lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  claw.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
   pros::delay(500);  // Stop the user from doing anything while legacy ports configure
 
@@ -55,7 +56,6 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"3 Pin\n\n 3 pin", three_pin},
   });
 
   // Initialize chassis and auton selector
@@ -84,7 +84,7 @@ void disabled() {
  */
 void competition_initialize() {
   // . . .
-    // Calibrate the lift's rotation sensor at startup
+  // Configure the lift for holding position at startup.
   lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   lift.move(-127);
   pros::delay(800);
@@ -197,20 +197,9 @@ void opcontrol() {
   chassis.opcontrol_drive_reverse_set(true);
 
   while (true) {
-    if (master.get_digital_new_press(DIGITAL_Y)) {
-     chassis.opcontrol_drive_reverse_set(!chassis.opcontrol_drive_reverse_get());
-    }
-   chassis.opcontrol_arcade_standard(ez::SPLIT);
-    intake_opcontrol();
+    chassis.opcontrol_arcade_standard(ez::SPLIT);
     lift_opcontrol();
     claw_opcontrol();
-    wrist_opcontrol();
-    matchloadPiston_opcontrol();
-    if(master.get_digital_new_press(DIGITAL_R2) && master.get_digital_new_press(DIGITAL_L2)) {
-      autonomous();
-      chassis.opcontrol_drive_reverse_set(true);
-    }
-    master.print(0, 0, "Rot: %d", rotation.get_velocity());
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }
